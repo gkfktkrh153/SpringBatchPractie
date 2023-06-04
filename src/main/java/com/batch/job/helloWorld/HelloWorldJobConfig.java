@@ -22,6 +22,12 @@ public class HelloWorldJobConfig {
     private final JobBuilderFactory jobBuilderFactory; // job을 빌드해주는 빌더를 생성해줌
     private final StepBuilderFactory stepBuilderFactory;
 
+    /**
+     * @Bean은 스프링 부트 앱이 실행될 때 싱글톤 객체로 하나가 생성된다.
+     * @JobScope 특정 잡에서 해당 스탭이 필요할 때 객체가 생성된다.
+     * @StepScope 스탭에서 해당 tasklet이 필요할 때 생성
+     */
+
     @Bean
     public Job helloWorldJob(Step helloWorldStep1){
         return jobBuilderFactory.get("helloWorldJob")
