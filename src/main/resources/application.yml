@@ -3,7 +3,7 @@ spring:
     active: dev
   batch:
     job:
-      names: ${job.name:withParamJob,helloWorldJob}
+      names: ${job.name:NONE}
     jdbc:
       initialize-schema: ALWAYS
   datasource:
@@ -13,3 +13,5 @@ spring:
     password:
   jpa:
     show-sql: true
+    hibernate:
+      ddl-auto: create
