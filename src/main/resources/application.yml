@@ -1,7 +1,9 @@
 spring:
+  profiles:
+    active: dev
   batch:
     job:
-      names: ${job.name:helloWorldJob}
+      names: ${job.name:withParamJob,helloWorldJob}
     jdbc:
       initialize-schema: ALWAYS
   datasource:

@@ -31,7 +31,7 @@ public class HelloWorldJobConfig {
     @Bean
     public Job helloWorldJob(){
         return jobBuilderFactory.get("helloWorldJob")
-                .incrementer(new RunIdIncrementer()) // 실행 시 매번 다른 ID를 파라미터로 부여
+                //.incrementer(new RunIdIncrementer()) // 실행 시 매번 다른 ID를 파라미터로 부여
                 .start(helloWorldStep1())
                 .next(helloWorldStep2())
                 .build();
@@ -71,6 +71,8 @@ public class HelloWorldJobConfig {
             @Override
             public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
                 System.out.println("Hello World!2");
+                //if(true)
+                //    throw new Exception("Failed : Hello World!2 ");
                 return RepeatStatus.FINISHED;
             }
         };
