@@ -20,6 +20,9 @@ public class DevInitData {
             Member member2 = memberService.join("user2", password, "user2@test.com");
             Member member3 = memberService.join("user3", password, "user3@test.com");
             Member member4 = memberService.join("user4", password, "user4@test.com");
+
+            productService.create("단가라 OPS", 68000, "청평화 A-1-15");
+            productService.create("쉬폰 OPS", 72000, "청평화 A-1-15");
         };
     }
 }
