@@ -24,6 +24,7 @@ public class Product extends BaseEntity {
     private int price;
     private String name;
     private String makerShopName;
+    private int wholesalePrice;
     private boolean isSoldOut; // 관련 옵션들이 전부 판매불능 상태일 때
 
     @Builder.Default
@@ -33,7 +34,7 @@ public class Product extends BaseEntity {
     public void addOption(ProductOption option) {
         option.setProduct(this);
         option.setPrice(getPrice());
-
+        option.setWholesalePrice(getWholesalePrice());
         productOptions.add(option);
     }
 }
