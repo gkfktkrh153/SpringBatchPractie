@@ -10,6 +10,8 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 
+import java.time.LocalDateTime;
+
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
@@ -44,6 +46,22 @@ public class RebateOrderItem extends BaseEntity {
     private int refundPrice; // 환불금액
     private int refundQuantity; // 환불한 개수
     private boolean isPaid; // 결제여부
+    private LocalDateTime payDate; // 결제날짜
+    // 상품
+    private String productName;
+
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "color", column = @Column(name = "product_option_color")),
+            @AttributeOverride(name = "size", column = @Column(name = "product_option_size")),
+            @AttributeOverride(name = "displayColor", column = @Column(name = "product_option_display_color")),
+            @AttributeOverride(name = "displaySize", column = @Column(name = "product_option_display_size"))
+    })
+    private RebateOrderItem.EmbProductOption embProductOption;
+
+    // 주문품목
+    private LocalDateTime orderItemCreateDate;
 
     public RebateOrderItem(OrderItem orderItem) {
         this.orderItem = orderItem;
@@ -54,34 +72,34 @@ public class RebateOrderItem extends BaseEntity {
         salePrice = orderItem.getSalePrice();
         wholesalePrice = orderItem.getWholesalePrice();
         pgFee = orderItem.getPgFee();
-        payPrice = orderItem.getPrice();
+        payPrice = orderItem.getPayPrice();
         refundPrice = orderItem.getRefundPrice();
         refundQuantity = orderItem.getRefundQuantity();
         isPaid = orderItem.isPaid();
+        payDate = orderItem.getPayDate();
+        // 상품 추가데이터
+        productName = orderItem.getProductOption().getProduct().getName();
+
+        // 상품 옵션 추가데이터
+        embProductOption = new EmbProductOption(orderItem.getProductOption());
+
+        // 주문품목 추가데이터
+        orderItemCreateDate = orderItem.getCreateDate();
     }
 
-    public RebateOrderItem(ProductOption productOption, int quantity) {
-        this.productOption = productOption;
-        this.quantity = quantity;
-        this.price = productOption.getPrice();
-        this.salePrice = productOption.getSalePrice();
-        this.wholesalePrice = productOption.getWholesalePrice();
-    }
+    @Embeddable
+    @NoArgsConstructor
+    public static class EmbProductOption {
+        private String color;
+        private String size;
+        private String displayColor;
+        private String displaySize;
 
-    public int calculatePayPrice() {
-        return salePrice * quantity;
-    }
-
-    public void setPaymentDone() {
-        this.pgFee = 0;
-        this.payPrice = calculatePayPrice();
-        this.isPaid = true;
-    }
-
-    public void setRefundDone() {
-        if (refundQuantity == quantity) return;
-
-        this.refundQuantity = quantity;
-        this.refundPrice = payPrice;
+        public EmbProductOption(ProductOption productOption) {
+            color = productOption.getColor();
+            size = productOption.getSize();
+            displayColor = productOption.getDisplayColor();
+            displaySize = productOption.getDisplaySize();
+        }
     }
 }
