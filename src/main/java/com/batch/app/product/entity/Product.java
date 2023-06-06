@@ -21,11 +21,11 @@ import static javax.persistence.CascadeType.ALL;
 @SuperBuilder
 @ToString(callSuper = true)
 public class Product extends BaseEntity {
-    private int price; // 권장 소비자 가격(할인이 없다면 이걸 이용함)
-    private int salePrice; // 실제 판매에 쓸 금액
+    private int salePrice;
+    private int price;
+    private int wholesalePrice;
     private String name;
     private String makerShopName;
-    private int wholesalePrice;
     private boolean isSoldOut; // 관련 옵션들이 전부 판매불능 상태일 때
 
     @Builder.Default
@@ -34,9 +34,10 @@ public class Product extends BaseEntity {
 
     public void addOption(ProductOption option) {
         option.setProduct(this);
-        option.setSalePrice(getPrice());
-        option.setWholesalePrice(getWholesalePrice());
+        option.setPrice(getPrice());
         option.setSalePrice(getSalePrice());
+        option.setWholesalePrice(getWholesalePrice());
+
         productOptions.add(option);
     }
 }

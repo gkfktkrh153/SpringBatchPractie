@@ -19,6 +19,7 @@ public class ProductService {
 
         Product product = Product.builder()
                 .name(name)
+                .salePrice(salePrice)
                 .price(price)
                 .wholesalePrice(wholesalePrice)
                 .makerShopName(makerShopName)
@@ -29,6 +30,7 @@ public class ProductService {
         }
 
         productRepository.save(product);
+
         return product;
     }
 }

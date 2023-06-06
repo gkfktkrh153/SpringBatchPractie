@@ -1,7 +1,10 @@
 package com.batch.app.product.entity;
 
 import com.batch.app.base.entity.BaseEntity;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
@@ -35,6 +38,7 @@ public class ProductOption extends BaseEntity {
         this.size = size;
         this.displaySize = size;
     }
+
     public boolean isOrderable(int quantity) {
         if (isSoldOut() == false) return true;
 
